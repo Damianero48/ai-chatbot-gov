@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot GOV</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="gov-wrap">
+    <div class="gov-header">
+      <div class="gov-logo">RP</div>
+      <div class="gov-header-text">
+        <h1>AI Agent Administracji Publicznej</h1>
+        <p>Urząd Cyfrowy — System Informacyjny</p>
+      </div>
+    </div>
+
+    <div class="gov-tabs">
+      <button class="gov-tab active" onclick="showPage('chat', this)">Czat z agentem</button>
+      <button class="gov-tab" onclick="showPage('info', this)">Informacje</button>
+      <button class="gov-tab" onclick="showPage('sprawy', this)">Moje sprawy</button>
+    </div>
+
+    <!-- STRONA: CZAT -->
+    <div class="gov-page active" id="page-chat">
+      <div class="gov-chat-panel">
+        <div class="gov-chat-header">
+          <div class="bot-avatar"><i class="ti ti-robot"></i></div>
+          <div class="bot-info">
+            <div class="bot-name">Agent Urzędowy</div>
+            <div class="bot-status"><span class="status-dot"></span>Aktywny</div>
+          </div>
+        </div>
+        <div class="gov-messages" id="messages">
+          <div class="msg bot">
+            <div class="msg-avatar bot-av"><i class="ti ti-robot"></i></div>
+            <div>
+              <div class="msg-bubble">Dzień dobry. Jestem agentem informacyjnym Urzędu Cyfrowego. Mogę pomóc Ci uzyskać informacje o godzinach pracy, formach kontaktu lub procedurach urzędowych. W czym mogę pomóc?</div>
+              <div class="msg-time">09:00</div>
+            </div>
+          </div>
+          <div class="typing" id="typing">
+            <div class="msg-avatar bot-av"><i class="ti ti-robot"></i></div>
+            <div class="msg-bubble typing-bubble">
+              <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gov-input-area">
+          <div class="input-row">
+            <input type="text" class="gov-input" id="userInput" placeholder="Zadaj pytanie urzędowe...">
+            <button class="gov-send-btn" onclick="sendMessage()"><i class="ti ti-send"></i> Wyślij</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="gov-sidebar">
+        <div class="sidebar-title">Często zadawane pytania</div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Jak działa chatbot? <i class="ti ti-chevron-down"></i></div>
+          <div class="faq-a">Bot odpowiada na podstawie przygotowanych reguł i bazy wiedzy urzędowej. W przypadku skomplikowanych spraw przekazuje do operatora.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Jakie są godziny pracy? <i class="ti ti-chevron-down"></i></div>
+          <div class="faq-a">Urząd jest czynny od poniedziałku do piątku w godzinach 8:00–16:00. Bot działa całą dobę, 7 dni w tygodniu.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Bot nie zna odpowiedzi? <i class="ti ti-chevron-down"></i></div>
+          <div class="faq-a">Skontaktuj się bezpośrednio z urzędem przez telefon lub odwiedź nas osobiście.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">Jak złożyć dokument online? <i class="ti ti-chevron-down"></i></div>
+          <div class="faq-a">Dokumenty można składać przez platformę ePUAP lub system Obywatel.gov.pl. Wymagany profil zaufany lub podpis kwalifikowany.</div>
+        </div>
+        <div class="sidebar-title" style="border-top: 1px solid #e5e7eb; margin-top: 8px;">Szybkie pytania</div>
+        <div class="faq-quick-btns">
+          <button class="quick-btn" onclick="insertQuestion('Jakie są godziny otwarcia urzędu?')"><i class="ti ti-clock"></i> Godziny otwarcia</button>
+          <button class="quick-btn" onclick="insertQuestion('Jak skontaktować się z urzędem?')"><i class="ti ti-phone"></i> Dane kontaktowe</button>
+          <button class="quick-btn" onclick="insertQuestion('Jak złożyć wniosek online?')"><i class="ti ti-file-text"></i> Wnioski online</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRONA: INFORMACJE -->
+    <div class="gov-page" id="page-info">
+      <div class="info-page">
+        <h2>Informacje o urzędzie</h2>
+        <p>Podstawowe dane, godziny pracy i dane kontaktowe Urzędu Cyfrowego.</p>
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="info-card-icon"><i class="ti ti-clock"></i></div>
+            <h3>Godziny pracy</h3>
+            <p>Pon.–pt. 8:00–16:00<br>Środa do 18:00<br>Sob.–niedz. nieczynne</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon"><i class="ti ti-map-pin"></i></div>
+            <h3>Adres</h3>
+            <p>ul. Urzędowa 1<br>00-001 Warszawa<br>pok. 101–115</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon"><i class="ti ti-phone"></i></div>
+            <h3>Telefon</h3>
+            <p>Infolinia: 800 000 000<br>Bezpłatna, czynna<br>8:00–16:00</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon"><i class="ti ti-mail"></i></div>
+            <h3>E-mail</h3>
+            <p>urzad@gov.pl<br>Odpowiedź w ciągu<br>2 dni roboczych</p>
+          </div>
+        </div>
+
+        <div class="section-label">Przydatne linki</div>
+        <div class="info-row">
+          <i class="ti ti-world"></i>
+          <div class="info-row-body">
+            <div class="info-row-label">Portal obywatelski</div>
+            <div class="info-row-val">obywatel.gov.pl</div>
+          </div>
+          <i class="ti ti-external-link"></i>
+        </div>
+        <div class="info-row">
+          <i class="ti ti-file-certificate"></i>
+          <div class="info-row-body">
+            <div class="info-row-label">Platforma ePUAP</div>
+            <div class="info-row-val">epuap.gov.pl</div>
+          </div>
+          <i class="ti ti-external-link"></i>
+        </div>
+        <div class="info-row">
+          <i class="ti ti-building"></i>
+          <div class="info-row-body">
+            <div class="info-row-label">Biuletyn Informacji Publicznej</div>
+            <div class="info-row-val">bip.gov.pl</div>
+          </div>
+          <i class="ti ti-external-link"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRONA: MOJE SPRAWY -->
+    <div class="gov-page" id="page-sprawy">
+      <div class="sprawy-page">
+        <h2>Moje sprawy</h2>
+        <p>Poniżej znajdziesz listę Twoich aktywnych i zakończonych spraw urzędowych.</p>
+        <div class="sprawa-row">
+          <div class="sprawa-icon pending"><i class="ti ti-clock"></i></div>
+          <div class="sprawa-info">
+            <div class="sprawa-title">Wniosek o wydanie zaświadczenia</div>
+            <div class="sprawa-sub">Złożono: 02.06.2026 · Nr ref: ZS/2026/04821</div>
+          </div>
+          <span class="sprawa-badge pending">W toku</span>
+        </div>
+        <div class="sprawa-row">
+          <div class="sprawa-icon done"><i class="ti ti-circle-check"></i></div>
+          <div class="sprawa-info">
+            <div class="sprawa-title">Zmiana adresu zameldowania</div>
+            <div class="sprawa-sub">Zakończono: 18.04.2026 · Nr ref: EL/2026/01137</div>
+          </div>
+          <span class="sprawa-badge done">Zakończona</span>
+        </div>
+        <div class="sprawa-row">
+          <div class="sprawa-icon wait"><i class="ti ti-hourglass"></i></div>
+          <div class="sprawa-info">
+            <div class="sprawa-title">Wniosek o dowód osobisty</div>
+            <div class="sprawa-sub">Złożono: 28.05.2026 · Nr ref: DO/2026/09043</div>
+          </div>
+          <span class="sprawa-badge wait">Oczekuje</span>
+        </div>
+        <div class="sprawa-row">
+          <div class="sprawa-icon done"><i class="ti ti-circle-check"></i></div>
+          <div class="sprawa-info">
+            <div class="sprawa-title">Rejestracja pojazdu</div>
+            <div class="sprawa-sub">Zakończono: 03.03.2026 · Nr ref: KP/2026/00512</div>
+          </div>
+          <span class="sprawa-badge done">Zakończona</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
