@@ -1,4 +1,4 @@
-/ Przełączanie zakładek
+/ przelaczenie zakladek
 function showPage(name, tab) {
   document.querySelectorAll('.gov-page').forEach(function(p) {
     p.classList.remove('active');
